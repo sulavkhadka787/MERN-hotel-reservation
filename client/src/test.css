@@ -73,10 +73,6 @@ img{
     transition: var(--transition);
     font-size: 20px;
 }
-
-.site-name span{
-    font-size: 25px;
-}
 .head-top span:hover{
     color: var(--yellow);
 }
@@ -528,10 +524,20 @@ img{
 
 /* ====register=== */
 
-.form-item.item-submit{
-    width:50%;
+.register{
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url("./images/banner-img.jpg") center/cover no-repeat;
+    min-height: 100vh;
+    color: #fff;
+    width:80%;
+    margin:auto;
 }
 
-a:link{
-    text-decoration: none;
+.register-form{
+    display:flex;
+    flex-direction: column;
+}
+
+.register-form input{
+    width:50%;
+    margin: auto;
 }

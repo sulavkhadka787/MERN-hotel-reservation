@@ -1,27 +1,41 @@
 import React from 'react';
 
-const App=()=>{
-  return (
-    <>
+const Home=()=>{
+
+        const toggle=()=>{
+            let sideNav=document.getElementById('sidenav');
+            sideNav.classList.toggle('show');
+        }
+
+        const close=()=>{
+            let sideNav=document.getElementById('sidenav');
+            sideNav.classList.remove('show');
+        }
+
+   
+    return(
+        <>
+      
       <header className = "header" id = "header">
             <div className = "head-top">
                 <div className = "site-name">
                     <span>Hotel Shangri-La</span>
                 </div>
-                <div className = "site-nav">
+                <div className = "site-nav" onClick={toggle}>
                     <span id = "nav-btn">MENU <i className = "fas fa-bars"></i></span>
                 </div>
             </div>
 
             <div className = "head-bottom flex">
-                <h2>NICE AND COMFORTABLE PLACE TO STAY</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto est quos veniam impedit numquam itaque voluptatum, dicta asperiores accusamus, eligendi neque ut incidunt, modi harum molestiae atque natus officia minima.</p>
-                <button type = "button" className = "head-btn">GET STARTED</button>
+            <h2>NICE AND COMFORTABLE PLACE TO STAY</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto est quos veniam impedit numquam itaque voluptatum, dicta asperiores accusamus, eligendi neque ut incidunt, modi harum molestiae atque natus officia minima.</p>
+            <button type = "button" className = "head-btn">GET STARTED</button>
             </div>
+           
         </header>
         
         <div className = "sidenav" id = "sidenav">
-            <span className = "cancel-btn" id = "cancel-btn">
+            <span className = "cancel-btn" id = "cancel-btn" onClick={close}>
                 <i className = "fas fa-times"></i>
             </span>
 
@@ -31,8 +45,8 @@ const App=()=>{
                 <li><a href = "#rooms">rooms</a></li>
                 <li><a href = "#customers">customers</a></li>
             </ul>
-            <button className = "btn sign-up">sign up</button>
-            <button className = "btn log-in">log in</button>
+            <button className = "btn sign-up"><a href="/register">sign up</a></button>
+            <button className = "btn log-in"><a href="/login">log in</a></button>
         </div>
         
         {/* <!-- fullscreen modal --> */}
@@ -102,23 +116,23 @@ const App=()=>{
         <div className = "book">
             <form className = "book-form">
                 <div className = "form-item">
-                    <label for = "checkin-date">Check In Date: </label>
+                    <label htmlFor = "checkin-date">Check In Date: </label>
                     <input type = "date" id = "chekin-date" />
                 </div>
                 <div className = "form-item">
-                    <label for = "checkout-date">Check Out Date: </label>
+                    <label htmlFor = "checkout-date">Check Out Date: </label>
                     <input type = "date" id = "chekout-date" />
                 </div>
                 <div className = "form-item">
-                    <label for = "adult">Adults: </label>
+                    <label htmlFor = "adult">Adults: </label>
                     <input type = "number" min = "1" value = "1" id = "adult" />
                 </div>
                 <div className = "form-item">
-                    <label for = "children">Children: </label>
+                    <label htmlFor = "children">Children: </label>
                     <input type = "number" min = "1" value = "1" id = "children" />
                 </div>
                 <div className = "form-item">
-                    <label for = "rooms">Rooms: </label>
+                    <label htmlFor = "rooms">Rooms: </label>
                     <input type = "number" min = "1" value = "1" id = "rooms" />
                 </div>
                 <div className = "form-item">
@@ -345,7 +359,7 @@ const App=()=>{
 
   
     </>    
-  );
+    )
 }
 
-export default App;
+export default Home;
