@@ -170,6 +170,9 @@ img{
     letter-spacing: 1.5px;
     transition: var(--transition);
 }
+.btn a{
+    text-decoration: none;
+}
 .navbar li a:hover{
     padding-left: 12px;
 }
@@ -562,6 +565,7 @@ img{
     font-size: 17px;
     border: none;
     outline: none;
+    color:black;
 }
 
 .bg-img .btn{
@@ -575,13 +579,23 @@ img{
     background: #252525;
 }
 
-@media (max-width:900px){
-
-    .bckground{
-        background-size: cover;
-    }
+@media (max-width:700px){
     .in-bck{
-        width:80%;
+        width:90%;
+        padding:10px;
+    }
+}
+
+@media (min-width:700px){
+    .in-bck{
+        width:60%;
+        padding:10px;
+    }
+}
+
+@media (min-width:1024px){
+    .in-bck{
+        width:40%;
         padding:10px;
     }
 }
