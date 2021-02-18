@@ -24,7 +24,7 @@ body{
     border: none;
     border-radius: 5px;
     padding: 10px;
-    width: 140px;
+    width: 200px;
     display: block;
     margin: 15px auto;
     cursor: pointer;
@@ -37,7 +37,6 @@ body{
   }
 .google-btn{
     font-size: 16px;
-    font-weight: 600;
     border: none;
     border-radius: 5px;
     padding: 10px;
@@ -201,6 +200,12 @@ img{
 .sign-up, .log-in{
     background: var(--yellow);
     color: #fff;
+}
+
+.user{
+    color:red;
+    text-decoration: uppercase;
+    font-size:20px;
 }
 @media(max-width: 400px){
     .sidenav{

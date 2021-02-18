@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 const Header=()=>{
@@ -16,6 +16,8 @@ const Header=()=>{
     }
     
     let dispatch=useDispatch();
+    let {user}=useSelector((state)=>({...state}));
+
     let history=useHistory();
 
     const logout=()=>{
@@ -55,14 +57,22 @@ const Header=()=>{
             </span>
 
             <ul className = "navbar">
+                {user && (<li className="user">Hello <span>&nbsp;</span> {user.email && user.email.split('@')[0]}</li>)}
                 <li><a href = "#header">home</a></li>
                 <li><a href = "#services">services</a></li>
                 <li><a href = "#rooms">rooms</a></li>
                 <li><a href = "#customers">customers</a></li>
             </ul>
-            <button className = "btn sign-up"><a href="/register">sign up</a></button>
-            <button className = "btn log-in"><a href="/login">log in</a></button>
-            <button className = "btn log-in" onClick={logout}><a href="/login">Log Out</a></button>
+            {!user && (
+                <button className = "btn sign-up"><a href="/register">sign up</a></button>
+            )}
+            {!user && (
+                <button className = "btn log-in"><a href="/login">log in</a></button>
+            )}
+            {user && (
+                <button className = "btn log-in" onClick={logout}><a href="/login">Log Out</a></button>
+            )}
+            
         </div>
         </>
     );

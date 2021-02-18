@@ -1,21 +1,70 @@
 import React,{useState} from 'react';
+import {auth,googleAuthProvider} from "../firebase";
+import {useDispatch} from 'react-redux';
+import { toast } from 'react-toastify';
 
-const Login=()=>{
+const Login=({history})=>{
 
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState("");
+    const[loading,setLoading]=useState(false);
+
+    let dispatch=useDispatch();
 
     const handleSubmit=async(e)=>{
         e.preventDefault();
-        console.table(email,password);
+        //console.table(email,password);
+        setLoading(true);
+        try{
+            const result=await auth.signInWithEmailAndPassword(email,password);
+            console.log("xxx",result);
+            const {user}=result;
+            const idTokenResult=await user.getIdTokenResult();
+            dispatch({
+                type:"LOGGED_IN_USER",
+                payload:{
+                    email:user.email,
+                    token:idTokenResult.token
+                }
+            });
+            history.push('/');
+        }catch(error){
+            console.log('errxxx',error.message);
+            toast.error(error.message);
+            setLoading(false);
+        }
+
     }
+
+
+    const googleLogin = async () => {
+        auth
+          .signInWithPopup(googleAuthProvider)
+          .then(async (result) => {
+            const { user } = result;
+            const idTokenResult = await user.getIdTokenResult();
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                email: user.email,
+                token: idTokenResult.token,
+              },
+            });
+            history.push("/");
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error(err.message);
+          });
+      };
 
     return(
 
         <div className="bckground">
             <h1>Hotel Shangri-La</h1>
             <div className="in-bck">
-            <h2>Please Login</h2>
+                {loading ? (<h2>Loading....</h2>) : (<h2>Please Login</h2>)}
+            
                 <form onSubmit={handleSubmit} className="bg-img">
 
                     <label htmlFor="email"><b>Email</b></label>
@@ -42,13 +91,17 @@ const Login=()=>{
                     type="submit" 
                     className="btn" 
                     onClick={handleSubmit}
-                    disabled= {!email || password.length<6}
                     >
                         Login
                     </button>
-                    <button type="submit" className="google-btn google"><i class="fa fa-google fa-fw">
-          </i> Login with Google
-        </button>
+                    <button 
+                        type="submit" 
+                        className="google-btn google"
+                        onClick={googleLogin}
+                    >
+                    <i className="fa fa-google fa-fw">
+                    </i> Login with Google
+                    </button>
                 </form>
             
             </div>
