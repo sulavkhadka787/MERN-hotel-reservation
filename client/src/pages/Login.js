@@ -1,13 +1,22 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {auth,googleAuthProvider} from "../firebase";
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 import { toast } from 'react-toastify';
+import {Link} from 'react-router-dom';
 
 const Login=({history})=>{
 
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState("");
     const[loading,setLoading]=useState(false);
+
+    const {user}=useSelector((state)=>({...state}));
+
+    useEffect(()=>{
+        if(user && user.token){
+            history.push("/");
+        }
+    },[user]);
 
     let dispatch=useDispatch();
 
@@ -103,7 +112,7 @@ const Login=({history})=>{
                     </i> Login with Google
                     </button>
                 </form>
-            
+                <Link className="forgot-pass" to="/forgot/password">Forgot Password</Link>
             </div>
          </div>
 
