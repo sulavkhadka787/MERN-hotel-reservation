@@ -55,7 +55,6 @@ const Header=()=>{
             <span className = "cancel-btn" id = "cancel-btn" onClick={close}>
                 <i className = "fas fa-times"></i>
             </span>
-
             <ul className = "navbar">
                 {user && (<li className="user">Hello <span>&nbsp;</span> {user.email && user.email.split('@')[0]}</li>)}
                 <li><a href = "#header">home</a></li>
