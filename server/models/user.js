@@ -3,7 +3,7 @@ const {ObjectId}=mongoose.Schema;
 
 const userSchema=new mongoose.Schema(
     {
-        fullname:String,
+        name:String,
         email:{
             type:String,
             required:true,
@@ -16,8 +16,7 @@ const userSchema=new mongoose.Schema(
         reservations:{
             type:Array,
             default:[]
-        },
-        address:String
+        }
     },
     {timestamps:true}
 )

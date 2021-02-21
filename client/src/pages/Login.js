@@ -40,17 +40,19 @@ const Login=({history})=>{
             const idTokenResult=await user.getIdTokenResult();
 
             createOrUpdateUser(idTokenResult.token)
-                .then((res)=>console.log("Create or update res",res))
+                .then((res)=>{
+                    dispatch({
+                        type:"LOGGED_IN_USER",
+                        payload:{
+                            email:user.email,
+                            token:idTokenResult.token
+                        }
+                    });
+                    history.push('/');
+                })
                 .catch();
 
-            // dispatch({
-            //     type:"LOGGED_IN_USER",
-            //     payload:{
-            //         email:user.email,
-            //         token:idTokenResult.token
-            //     }
-            // });
-            // history.push('/');
+            
         }catch(error){
             console.log('errxxx',error.message);
             toast.error(error.message);
@@ -126,7 +128,11 @@ const Login=({history})=>{
                     </i> Login with Google
                     </button>
                 </form>
-                <Link className="forgot-pass" to="/forgot/password">Forgot Password</Link>
+                <div className="forgot">
+                <Link className="forgot-pass" to="/forgot/password">Forgot Password</Link> {"   "}
+                <Link className="forgot-pass" to="/register">Register</Link>
+                </div>
+                
             </div>
          </div>
 

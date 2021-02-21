@@ -5,6 +5,7 @@ import {toast} from 'react-toastify';
 
 const RegisterComplete=({history})=>{
     const [email,setEmail]=useState('');
+    const[fullname,setFullname]=useState('');
     const[password,setPassword]=useState('');
     const[confirmPassword,setConfirmPassword]=useState('');
 
@@ -32,6 +33,8 @@ const RegisterComplete=({history})=>{
             toast.error("Password and Confirm Password donot match");
             return;
         }
+
+        let name=fullname.toLowerCase();
         try{
             const result=await auth.signInWithEmailLink(email,window.location.href);
             //console.log(auth);
@@ -43,6 +46,9 @@ const RegisterComplete=({history})=>{
                 //get user id token
                 let user=auth.currentUser;
                 await user.updatePassword(password);
+                await user.updateProfile({
+                    displayName:name
+                })
                 const idTokenResult=await user.getIdTokenResult();
 
                 //redux state
@@ -76,6 +82,15 @@ const RegisterComplete=({history})=>{
                         value={email}
                         onChange={(e)=>setEmail(e.target.value)} 
                         disabled   
+                    />
+
+                    <label htmlFor="fullname"><b>Fullname</b></label>
+                    <input 
+                        type="text" 
+                        placeholder="Enter your fullname" 
+                        name="fullname" 
+                        required 
+                        onChange={(e)=>setFullname(e.target.value)} 
                     />
 
                     <label htmlFor="password"><b>Password</b></label>

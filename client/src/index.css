@@ -30,11 +30,17 @@ body{
     cursor: pointer;
     transition: var(--transition);
 }
-a.forgot-pass{
+.forgot-pass{
     text-decoration: none;
     color:black;
     font-weight:700;
 }
+
+.forgot{
+    display: flex;
+    justify-content: space-between;
+}
+
 .google {
     background-color: #dd4b39;
     color: white;
