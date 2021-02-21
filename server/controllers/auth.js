@@ -1,6 +1,7 @@
 const User=require('../models/user');
 
 exports.createOrUpdateUser=async(req,res)=>{
+    //console.log('controller=req-user',req.user)
     const {name,email}=req.user;
     const user=await User.findOneAndUpdate({email},{name},{new:true});
 

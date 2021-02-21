@@ -3,15 +3,7 @@ import {auth,googleAuthProvider} from "../firebase";
 import {useDispatch,useSelector} from 'react-redux';
 import { toast } from 'react-toastify';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
-
-const createOrUpdateUser=async(authtoken)=>{
-    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`,{},{
-        headers:{
-            authtoken:authtoken
-        }
-    })
-}
+import {createOrUpdateUser} from '../functions/auth';
 
 const Login=({history})=>{
 
@@ -44,15 +36,16 @@ const Login=({history})=>{
                     dispatch({
                         type:"LOGGED_IN_USER",
                         payload:{
-                            email:user.email,
-                            token:idTokenResult.token
+                            name:res.data.name,
+                            email:res.data.email,
+                            token:idTokenResult.token,
+                            role:res.data.role,
+                            _id:res.data._id
                         }
-                    });
-                    history.push('/');
+                    })
                 })
                 .catch();
-
-            
+                history.push("/");
         }catch(error){
             console.log('errxxx',error.message);
             toast.error(error.message);
@@ -67,15 +60,23 @@ const Login=({history})=>{
           .signInWithPopup(googleAuthProvider)
           .then(async (result) => {
             const { user } = result;
+            //console.log('google-auth',result);
             const idTokenResult = await user.getIdTokenResult();
-            dispatch({
-              type: "LOGGED_IN_USER",
-              payload: {
-                email: user.email,
-                token: idTokenResult.token,
-              },
-            });
-            history.push("/");
+            createOrUpdateUser(idTokenResult.token)
+                .then((res)=>{
+                    dispatch({
+                        type:"LOGGED_IN_USER",
+                        payload:{
+                            name:res.data.name,
+                            email:res.data.email,
+                            token:idTokenResult.token,
+                            role:res.data.role,
+                            _id:res.data._id
+                        }
+                    })
+                })
+                .catch();
+                history.push("/");
           })
           .catch((err) => {
             console.log(err);

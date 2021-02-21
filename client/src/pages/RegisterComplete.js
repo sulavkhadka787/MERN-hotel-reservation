@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import {auth} from '../firebase';
 import {toast} from 'react-toastify';
-
+import {useDispatch,useSelector} from 'react-redux';
+import {createOrUpdateUser} from '../functions/auth';
 
 const RegisterComplete=({history})=>{
     const [email,setEmail]=useState('');
@@ -9,13 +10,16 @@ const RegisterComplete=({history})=>{
     const[password,setPassword]=useState('');
     const[confirmPassword,setConfirmPassword]=useState('');
 
+    const {user}=useSelector((state)=>({...state}));
+    let dispatch=useDispatch();
+
     useEffect(()=>{
         setEmail(window.localStorage.getItem("emailForRegistration"));
         // console.log(window.location.href);
         // console.log(window.localStorage.getItem("emailForRegistration"));
     },[]);
 
-    const handleSubmit=async(e)=>{
+     const handleSubmit=async(e)=>{
         e.preventDefault();
 
         //validation
@@ -52,7 +56,20 @@ const RegisterComplete=({history})=>{
                 const idTokenResult=await user.getIdTokenResult();
 
                 //redux state
-
+                createOrUpdateUser(idTokenResult.token)
+                .then((res)=>{
+                    dispatch({
+                        type:"LOGGED_IN_USER",
+                        payload:{
+                            name:res.data.name,
+                            email:res.data.email,
+                            token:idTokenResult.token,
+                            role:res.data.role,
+                            _id:res.data._id
+                        }
+                    })
+                })
+                .catch();
                 //redirect
                 history.push('/');
             }
