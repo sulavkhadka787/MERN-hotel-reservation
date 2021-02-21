@@ -3,6 +3,15 @@ import {auth,googleAuthProvider} from "../firebase";
 import {useDispatch,useSelector} from 'react-redux';
 import { toast } from 'react-toastify';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+
+const createOrUpdateUser=async(authtoken)=>{
+    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`,{},{
+        headers:{
+            authtoken:authtoken
+        }
+    })
+}
 
 const Login=({history})=>{
 
@@ -26,17 +35,22 @@ const Login=({history})=>{
         setLoading(true);
         try{
             const result=await auth.signInWithEmailAndPassword(email,password);
-            console.log("xxx",result);
+            //console.log("xxx",result);
             const {user}=result;
             const idTokenResult=await user.getIdTokenResult();
-            dispatch({
-                type:"LOGGED_IN_USER",
-                payload:{
-                    email:user.email,
-                    token:idTokenResult.token
-                }
-            });
-            history.push('/');
+
+            createOrUpdateUser(idTokenResult.token)
+                .then((res)=>console.log("Create or update res",res))
+                .catch();
+
+            // dispatch({
+            //     type:"LOGGED_IN_USER",
+            //     payload:{
+            //         email:user.email,
+            //         token:idTokenResult.token
+            //     }
+            // });
+            // history.push('/');
         }catch(error){
             console.log('errxxx',error.message);
             toast.error(error.message);
