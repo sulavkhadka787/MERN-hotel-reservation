@@ -1,11 +1,21 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Header from '../components/Header';
 
 
 const Home=()=>{
 
-        
-   
+        const [checkIn,setCheckIn]=useState('');
+        const [checkOut,setCheckOut]=useState('');
+        const [adultNum,setAdultNum]=useState();
+        const [childNum,setChildNum]=useState();
+        const [totalRooms,setTotalRooms]=useState();
+
+        const handleSubmit=(e)=>{
+            e.preventDefault();
+            const startDate=checkIn.split('-')[2];
+            const endDate=checkOut.split('-')[2];
+            console.log('start',startDate,'end',endDate);
+        }
     return(
         <>
       
@@ -76,26 +86,26 @@ const Home=()=>{
         </section>
 
         <div className = "book">
-            <form className = "book-form">
+            <form className = "book-form" onSubmit={handleSubmit}>
                 <div className = "form-item">
                     <label htmlFor = "checkin-date">Check In Date: </label>
-                    <input type = "date" id = "chekin-date" />
+                    <input type = "date" id = "chekin-date" onChange={(e)=>setCheckIn(e.target.value)}/>
                 </div>
                 <div className = "form-item">
                     <label htmlFor = "checkout-date">Check Out Date: </label>
-                    <input type = "date" id = "chekout-date" />
+                    <input type = "date" id = "chekout-date" onChange={(e)=>setCheckOut(e.target.value)}/>
                 </div>
                 <div className = "form-item">
-                    <label htmlFor = "adult">Adults: </label>
-                    <input type = "number" min = "1" value = "1" id = "adult" />
+                    <label htmlFor = "adults">Adults: </label>
+                    <input type="number"  min="1" max="4" id = "adults"/>
                 </div>
                 <div className = "form-item">
                     <label htmlFor = "children">Children: </label>
-                    <input type = "number" min = "1" value = "1" id = "children" />
+                    <input type="number"  min="0" max="3" id = "children"/>
                 </div>
                 <div className = "form-item">
                     <label htmlFor = "rooms">Rooms: </label>
-                    <input type = "number" min = "1" value = "1" id = "rooms" />
+                    <input type="number"  min="1" max="4" id = "rooms"/>
                 </div>
                 <div className = "form-item">
                     <input type = "submit" className = "btn" value = "Book Now" />
