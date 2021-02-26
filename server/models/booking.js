@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const {ObjectId}=mongoose.Schema;
 
-const bookingSchema=mongoose.Schema({
+const bookingSchema=new mongoose.Schema({
     checkInDate:{
         type:Date,
         required:true,
@@ -11,16 +11,22 @@ const bookingSchema=mongoose.Schema({
         required:true
     },
     adults:{
-        type:Number,
+        type:String,
         required:true
     },
     children:{
-        type:Number,
+        type:String,
         required:true
     },
     room:{
-        type:Number,
+        type:String,
         required:true
+    },
+    roomType:{
+        type:String
+    },
+    price:{
+        type:Number
     }
 },
 {timestamps:true}

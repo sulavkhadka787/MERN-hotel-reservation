@@ -33,6 +33,7 @@ const Login=({history})=>{
 
             createOrUpdateUser(idTokenResult.token)
                 .then((res)=>{
+                    console.log('res-login',res);
                     dispatch({
                         type:"LOGGED_IN_USER",
                         payload:{

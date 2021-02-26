@@ -1,8 +1,13 @@
 import React,{useState} from 'react';
+import {useSelector,useDispatch} from 'react-redux';
+import moment from 'moment';
+import {toast} from 'react-toastify';
+import {book} from '../functions/booking';
+
 import Header from '../components/Header';
 
 
-const Home=()=>{
+const Home=({history})=>{
 
         const [checkIn,setCheckIn]=useState('');
         const [checkOut,setCheckOut]=useState('');
@@ -10,11 +15,53 @@ const Home=()=>{
         const [childNum,setChildNum]=useState();
         const [totalRooms,setTotalRooms]=useState();
 
-        const handleSubmit=(e)=>{
+        const {user}=useSelector((state)=>({...state}));
+        const dispatch=useDispatch();
+
+        const handleSubmit=async(e)=>{
             e.preventDefault();
-            const startDate=checkIn.split('-')[2];
-            const endDate=checkOut.split('-')[2];
-            console.log('start',startDate,'end',endDate);
+            try{
+            const currentDate=moment().format('YYYY-MM-DD');
+            const futureMonth=moment(currentDate,'YYYY-MM-DD').add(1,'months').format('YYYY-MM-DD');
+            console.log('current',currentDate,'future',futureMonth);   
+            if(moment(checkOut).isBefore(checkIn)){
+                toast.error('Checkout date must be after check-in date')
+                return;
+            }
+
+            if(moment(checkIn).isSameOrBefore(currentDate)){
+                toast.error('Check-in date shouldn\'t be today\'s date or older');
+                return;
+            }
+
+            if(moment(checkOut).isAfter(futureMonth)){
+                toast.error("Booking date should be less than one month")
+                return;
+            }
+            
+                book({checkIn,checkOut,adultNum,childNum,totalRooms},user.token)
+                .then((res)=>{console.log("resbook",res);
+                 toast.success("Please select your room ")
+                 dispatch({
+                     type:'BEGIN_BOOKING',
+                     payload:{
+                        checkInDate:res.data.checkInDate,
+                        checkOutDate:res.data.checkOutDate,
+                        adults:res.data.adults,
+                        children:res.data.children,
+                        room:res.data.room,
+                     }
+                 })
+                localStorage.setItem("initial-booking",JSON.stringify(res.data));
+                })
+                .catch(e);
+            }catch(e){
+                toast.error(e);
+            }
+            
+
+            history.push('/room/select');
+           
         }
     return(
         <>
@@ -97,15 +144,15 @@ const Home=()=>{
                 </div>
                 <div className = "form-item">
                     <label htmlFor = "adults">Adults: </label>
-                    <input type="number"  min="1" max="4" id = "adults"/>
+                    <input type="number"  min="1" max="4" id = "adults" onChange={(e)=>setAdultNum(e.target.value)}/>
                 </div>
                 <div className = "form-item">
                     <label htmlFor = "children">Children: </label>
-                    <input type="number"  min="0" max="3" id = "children"/>
+                    <input type="number"  min="0" max="3" id = "children" onChange={(e)=>setChildNum(e.target.value)}/>
                 </div>
                 <div className = "form-item">
                     <label htmlFor = "rooms">Rooms: </label>
-                    <input type="number"  min="1" max="4" id = "rooms"/>
+                    <input type="number"  min="1" max="4" id = "rooms" onChange={(e)=>setTotalRooms(e.target.value)}/>
                 </div>
                 <div className = "form-item">
                     <input type = "submit" className = "btn" value = "Book Now" />
