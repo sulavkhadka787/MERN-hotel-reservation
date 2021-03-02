@@ -9,37 +9,47 @@ import Header from '../components/Header';
 
 const Home=({history})=>{
 
+    const {user}=useSelector((state)=>({...state}));
+    
         const [checkIn,setCheckIn]=useState('');
         const [checkOut,setCheckOut]=useState('');
         const [adultNum,setAdultNum]=useState();
         const [childNum,setChildNum]=useState();
         const [totalRooms,setTotalRooms]=useState();
-
-        const {user}=useSelector((state)=>({...state}));
+        
+        
         const dispatch=useDispatch();
 
         const handleSubmit=async(e)=>{
+            if(!user){
+                toast.error("please log in")
+                return;
+            }
+
+               
             e.preventDefault();
             try{
-            const currentDate=moment().format('YYYY-MM-DD');
-            const futureMonth=moment(currentDate,'YYYY-MM-DD').add(1,'months').format('YYYY-MM-DD');
-            console.log('current',currentDate,'future',futureMonth);   
-            if(moment(checkOut).isBefore(checkIn)){
-                toast.error('Checkout date must be after check-in date')
-                return;
-            }
+                console.log('chekc-in-frontend',checkIn);
+                const {email}=user;
+                const currentDate=moment().format('YYYY-MM-DD');
+                const futureMonth=moment(currentDate,'YYYY-MM-DD').add(1,'months').format('YYYY-MM-DD');
+                console.log('current',currentDate,'future',futureMonth);   
+                if(moment(checkOut).isBefore(checkIn)){
+                    toast.error('Checkout date must be after check-in date')
+                    return;
+                }
 
-            if(moment(checkIn).isSameOrBefore(currentDate)){
-                toast.error('Check-in date shouldn\'t be today\'s date or older');
-                return;
-            }
+                if(moment(checkIn).isSameOrBefore(currentDate)){
+                    toast.error('Check-in date shouldn\'t be today\'s date or older');
+                    return;
+                }
 
-            if(moment(checkOut).isAfter(futureMonth)){
-                toast.error("Booking date should be less than one month")
-                return;
-            }
+                if(moment(checkOut).isAfter(futureMonth)){
+                    toast.error("Booking date should be less than one month")
+                    return;
+                }
             
-                book({checkIn,checkOut,adultNum,childNum,totalRooms},user.token)
+                book({checkIn,checkOut,adultNum,childNum,totalRooms,email},user.token)
                 .then((res)=>{console.log("resbook",res);
                  toast.success("Please select your room ")
                  dispatch({
@@ -50,6 +60,8 @@ const Home=({history})=>{
                         adults:res.data.adults,
                         children:res.data.children,
                         room:res.data.room,
+                        email:res.data.email,
+                        _id:res.data._id
                      }
                  })
                 localStorage.setItem("initial-booking",JSON.stringify(res.data));
@@ -59,13 +71,11 @@ const Home=({history})=>{
                 toast.error(e);
             }
             
-
-            history.push('/room/select');
+            history.push(`/room/select/`);
            
         }
     return(
         <>
-      
       <Header />
         
         {/* <!-- fullscreen modal --> */}

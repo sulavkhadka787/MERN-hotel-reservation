@@ -2,8 +2,8 @@ const Booking=require('../models/booking');
 
 exports.book=async(req,res)=>{
     try{
-       console.log(req.body);
-       const {checkIn,checkOut,adultNum,childNum,totalRooms}=req.body;
+       console.log('bok-initial',req.body);
+       const {checkIn,checkOut,adultNum,childNum,totalRooms,email}=req.body;
        let dateIn=checkIn.split('-');
        let dateOut=checkOut.split('-');
        let newcheckInDate=new Date(dateIn[0],dateIn[1]-1,dateIn[2]);
@@ -14,7 +14,8 @@ exports.book=async(req,res)=>{
                                     checkOutDate:newcheckoutDate,
                                     adults:adultNum,
                                     children:childNum,
-                                    room:totalRooms
+                                    room:totalRooms,
+                                    email:email
                                 }).save();
         res.json(newBooking);      
     }catch(e){
@@ -25,3 +26,21 @@ exports.book=async(req,res)=>{
     }
 }
 
+// exports.confirmRoom=async(req,res)=>{
+//     try{
+//         console.log(req.body);
+//         const {roomType,price,_id}=req.body;
+//         const roomSelect=await Booking.findOneAndUpdate({_id},{roomType,price},{new:true});
+//         res.json(roomSelect);
+//     }catch(e){
+//         res.status(400).send("Room addition failed");
+//     }
+// }
+
+exports.listBooking=async(req,res)=>{
+    const booking=await Booking.findOne({_id:req.params.id})
+                    .populate("Booking")
+                    .populate("roomType")
+                    .exec();
+    res.json(booking);
+}

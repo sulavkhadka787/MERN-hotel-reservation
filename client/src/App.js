@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import RegisterComplete from './pages/RegisterComplete';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
+import RoomSelect from './pages/RoomSelect';
+import Payment from './pages/Payment';
 
 import {auth} from './firebase';
 import {useDispatch} from 'react-redux';
@@ -46,6 +48,8 @@ const App=()=>{
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
+        <Route exact path="/room/select/" component={RoomSelect} />
+        <Route exact path="/payment/:id" component={Payment} />
     </Switch>
     </>
   );

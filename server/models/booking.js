@@ -11,22 +11,25 @@ const bookingSchema=new mongoose.Schema({
         required:true
     },
     adults:{
-        type:String,
+        type:Number,
         required:true
     },
     children:{
-        type:String,
+        type:Number,
         required:true
     },
     room:{
-        type:String,
+        type:Number,
         required:true
     },
     roomType:{
-        type:String
+        type:ObjectId,
+        ref:'Room'
     },
-    price:{
-        type:Number
+    email:{
+        type:String,
+        required:true,
+        index:true
     }
 },
 {timestamps:true}
