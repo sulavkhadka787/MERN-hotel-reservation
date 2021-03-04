@@ -6,26 +6,24 @@ import moment from 'moment';
 import {roomSelect} from '../functions/booking';
 
 const RoomSelect=({history})=>{
-    
     const{user}=useSelector((state)=>({...state}));
     const {booking}=useSelector((state)=>({...state}));
     const {_id}=booking;
     const dispatch=useDispatch();
 
-    const startdate=booking.checkInDate.split('T')[0];
-    const endDate=booking.checkOutDate.split('T')[0];
-    let start=moment(startdate,'YYYY-MM-DD');
-    let end=moment(endDate,'YYYY-MM-DD');
-    const totalStay=moment.duration(end.diff(start)).asDays();
-    
-    
-   const price=200*totalStay;
-
-    const handleSubmit=(e)=>{
+    const handleSubmit=async(e)=>{
         e.preventDefault();
         try{
+            const startDate=  booking.checkInDate.split('T')[0];
+            const endDate=  booking.checkOutDate.split('T')[0];
+            let start=moment(startDate,'YYYY-MM-DD');
+            let end=moment(endDate,'YYYY-MM-DD');
+            let totalRoom=booking.room;
+            const totalStay=moment.duration(end.diff(start)).asDays();
+            const price=200*totalStay*totalRoom;
+        
             const room=e.target.value;
-            roomSelect({roomType:room,price,bookingId:booking._id},user.token)
+            await roomSelect({roomType:room,price,bookingId:booking._id},user.token)
                 .then((res)=>{console.log('roomresponse',res);
                 toast.success('Your room has been confirmed');
                 dispatch({
@@ -46,7 +44,7 @@ const RoomSelect=({history})=>{
         }catch(e){
             toast.error(e);
         }
-        history.push(`/payment/${_id}`);
+       history.push(`/payment/${_id}`);
     }
 
 

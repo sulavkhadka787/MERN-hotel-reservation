@@ -64,7 +64,7 @@ const Home=({history})=>{
                         _id:res.data._id
                      }
                  })
-                localStorage.setItem("initial-booking",JSON.stringify(res.data));
+                 localStorage.setItem("initial-booking",JSON.stringify(res.data));
                 })
                 .catch(e);
             }catch(e){

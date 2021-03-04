@@ -2,13 +2,11 @@ const Booking=require('../models/booking');
 
 exports.book=async(req,res)=>{
     try{
-       console.log('bok-initial',req.body);
        const {checkIn,checkOut,adultNum,childNum,totalRooms,email}=req.body;
        let dateIn=checkIn.split('-');
        let dateOut=checkOut.split('-');
        let newcheckInDate=new Date(dateIn[0],dateIn[1]-1,dateIn[2]);
        let newcheckoutDate=new Date(dateOut[0],dateOut[1]-1,dateOut[2]);
-       console.log(newcheckInDate,'and',newcheckoutDate);
        const newBooking=await new Booking(
                                 {checkInDate:newcheckInDate,
                                     checkOutDate:newcheckoutDate,
@@ -39,8 +37,8 @@ exports.book=async(req,res)=>{
 
 exports.listBooking=async(req,res)=>{
     const booking=await Booking.findOne({_id:req.params.id})
-                    .populate("Booking")
                     .populate("roomType")
                     .exec();
+    console.log('===============booking',booking,"===================");
     res.json(booking);
 }

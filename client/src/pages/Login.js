@@ -45,7 +45,7 @@ const Login=({history})=>{
                         }
                     })
                 })
-                .catch();
+                .catch(err=>console.log(err));
                 history.push("/");
         }catch(error){
             console.log('errxxx',error.message);
@@ -76,7 +76,7 @@ const Login=({history})=>{
                         }
                     })
                 })
-                .catch();
+                .catch(err=>console.log(err));
                 history.push("/");
           })
           .catch((err) => {

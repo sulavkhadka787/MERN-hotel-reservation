@@ -10,9 +10,9 @@ exports.confirmRoom=async(req,res)=>{
             bookingId
         }).save();
         const bookingUpdate=await Booking.findOneAndUpdate({_id:bookingId},{roomType:newRoom},{new:true});
-        console.log('newroom',newRoom);
-        console.log('book-id',bookingId);
-        console.log('booking-update',bookingUpdate);
+        // console.log('newroom',newRoom);
+        // console.log('book-id',bookingId);
+        // console.log('booking-update',bookingUpdate);
         res.json(bookingUpdate);
     }catch(err){
         res.status(400).json({

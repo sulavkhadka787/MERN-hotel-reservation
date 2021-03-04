@@ -661,6 +661,7 @@ img{
     border:1px solid black;
     background-color:black;
     color:white;
+    cursor: pointer;
 }
 .room-details{
     display:grid;
@@ -694,5 +695,40 @@ img{
         border:1px solid black;
         background-color:black;
         color:white;
+        cursor: pointer;
     }
+}
+/* ==========checkout=========== */
+.payment-grid{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    height:100vh;
+}
+
+.payment-grid-body{
+    border:1px dotted black;
+    padding:50px 50px;
+}
+.payment-grid h3{
+    text-align: center;
+    font-size: 3rem;
+}
+
+.payment-grid ul li{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    font-size:2rem;
+}
+.payment-grid ul li :first-child{
+    text-align: left;
+}
+
+.payment-grid ul li :last-child{
+    text-align: right;
+}
+
+.payment-grid .room-select-btn{
+    margin-top: 20px;
 }
