@@ -22,3 +22,12 @@ export const bookingDetails=async(_id,authtoken)=>
             authtoken
         }
     });
+
+// export const confirmPayment=async()=>
+//     await axios.get(`${process.env.REACT_APP_API}/comfirm/payment`,{
+//         headers:{
+//             authtoken
+//         }
+//     })
+export const confirmPayment=async()=>{
+    const {data}=await axios.get(`${process.env.REACT_APP_API}/config/paypal`)};

@@ -705,6 +705,11 @@ img{
     justify-content: center;
     height:100vh;
 }
+.payment-grid.paypal{
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+}
 
 .payment-grid-body{
     border:1px dotted black;

@@ -39,6 +39,9 @@ exports.listBooking=async(req,res)=>{
     const booking=await Booking.findOne({_id:req.params.id})
                     .populate("roomType")
                     .exec();
-    console.log('===============booking',booking,"===================");
     res.json(booking);
+}
+
+exports.paymentComplete=(req,res)=>{
+    res.send(process.env.PAYPAL_CLIENT_ID || 'sb')
 }

@@ -61,7 +61,7 @@ const Payment=({match,history})=>{
     }
 
     const paymentHandler=()=>{
-        history.push('/complete/payment')
+        history.push('/config/paypal')
     }
     
     return(
