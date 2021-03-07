@@ -12,6 +12,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import RoomSelect from './pages/RoomSelect';
 import Payment from './pages/Payment';
 import CompletePayment from './pages/CompletePayment';
+import MyBookings from './pages/MyBookings';
 
 import {auth} from './firebase';
 import {useDispatch} from 'react-redux';
@@ -40,6 +41,13 @@ const App=()=>{
                             _id:res.data._id
                         }
                     })
+                    localStorage.setItem('user-state',JSON.stringify({
+                            name:res.data.name,
+                            email:res.data.email,
+                            token:idTokenResult.token,
+                            role:res.data.role,
+                            _id:res.data._id
+                    }))
                 })
               .catch(err=>console.log(err));
           }
@@ -60,6 +68,7 @@ const App=()=>{
         <Route exact path="/room/select/" component={RoomSelect} />
         <Route exact path="/payment/:id" component={Payment} />
         <Route exact path="/config/paypal" component={CompletePayment} />
+        <Route exact path="/mybookings" component={MyBookings} />
     </Switch>
     </>
   );

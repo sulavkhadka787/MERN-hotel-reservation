@@ -45,3 +45,12 @@ exports.listBooking=async(req,res)=>{
 exports.paymentComplete=(req,res)=>{
     res.send(process.env.PAYPAL_CLIENT_ID || 'sb')
 }
+
+exports.mybookings=async(req,res)=>{
+    const email=req.body.email;
+    const bookings=await Booking.find({email:email}).populate("roomType").exec();
+    console.log("====================");
+    console.log('my-bookings',bookings);
+    res.json(bookings);
+
+}

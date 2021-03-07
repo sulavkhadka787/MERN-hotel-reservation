@@ -10,6 +10,8 @@ export const bookingReducer=(state=initialState,action)=>{
     switch(action.type){
         case 'BEGIN_BOOKING':
             return action.payload;
+        case 'RESERVATION_COMPLETE':
+            return initialState={};
         default:
             return state;
     }

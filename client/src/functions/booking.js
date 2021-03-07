@@ -31,3 +31,10 @@ export const bookingDetails=async(_id,authtoken)=>
 //     })
 export const confirmPayment=async()=>{
     const {data}=await axios.get(`${process.env.REACT_APP_API}/config/paypal`)};
+
+export const mybookings=async(email,authtoken)=>
+    await axios.post(`${process.env.REACT_APP_API}/mybookings/`,{email},{
+        headers:{
+            authtoken
+        }
+})

@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import {useDispatch,useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-
+import {Link} from 'react-router-dom';
 const Header=()=>{
    
     const toggle=()=>{
@@ -26,6 +26,7 @@ const Header=()=>{
             type:"LOGOUT",
             payload:null
         });
+        localStorage.removeItem('user-state');
 
         history.push("/login");
     }
@@ -58,7 +59,7 @@ const Header=()=>{
             <ul className = "navbar">
                 {user && (<li className="user">Hello <span>&nbsp;</span> {user.email && user.email.split('@')[0]}</li>)}
                 <li><a href = "#header">home</a></li>
-                <li><a href = "#services">services</a></li>
+                <li><Link  to="/mybookings">My Bookings</Link></li>
                 <li><a href = "#rooms">rooms</a></li>
                 <li><a href = "#customers">customers</a></li>
             </ul>
