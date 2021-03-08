@@ -2,7 +2,6 @@ import React,{useEffect, useState} from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { confirmPayment } from '../functions/booking';
 import {PayPalButton} from 'react-paypal-button-v2';
-import axios from 'axios';
 
 const CompletePayment=({history})=>{
 

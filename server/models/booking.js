@@ -30,6 +30,11 @@ const bookingSchema=new mongoose.Schema({
         type:String,
         required:true,
         index:true
+    },
+    ratings:{
+        star:Number,
+        postedBy:{type:ObjectId,ref:"User"}
+
     }
 },
 {timestamps:true}

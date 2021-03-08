@@ -5,7 +5,7 @@ const router=express.Router();
 const {authCheck}=require('../middlewares/auth');
 
 //controllers
-const {book,listBooking,paymentComplete,mybookings}=require('../controllers/booking');
+const {book,listBooking,paymentComplete,mybookings,bookingStar}=require('../controllers/booking');
 const {confirmRoom}=require('../controllers/room');
 
 //routes
@@ -15,5 +15,6 @@ router.get('/payment/:id',authCheck,listBooking);
 //router.get('/complete/payment',authCheck,paymentComplete);
 router.get('/config/paypal',paymentComplete);
 router.post('/mybookings',authCheck,mybookings);
+router.put('/booking/star/:bookingId',authCheck,bookingStar);
 
 module.exports=router;

@@ -1,4 +1,5 @@
 const Booking=require('../models/booking');
+const User=require('../models/user');
 
 exports.book=async(req,res)=>{
     try{
@@ -49,8 +50,23 @@ exports.paymentComplete=(req,res)=>{
 exports.mybookings=async(req,res)=>{
     const email=req.body.email;
     const bookings=await Booking.find({email:email}).populate("roomType").exec();
-    console.log("====================");
+    //console.log("====================");
     console.log('my-bookings',bookings);
     res.json(bookings);
+
+}
+
+exports.bookingStar=async(req,res)=>{
+    const booking=await Booking.findById(req.params.bookingId).exec();
+    const user=await User.findOne({email:req.user.email}).exec();
+    const {star}=req.body;
+        let ratingAdded=await Booking.findByIdAndUpdate(
+                                req.params.bookingId,
+                                {ratings:{star:star,postedBy:user._id}},
+                                {new:true}
+                        ).exec()
+
+    console.log('rating-add',ratingAdded);
+    res.json(ratingAdded);
 
 }

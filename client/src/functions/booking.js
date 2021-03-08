@@ -38,3 +38,9 @@ export const mybookings=async(email,authtoken)=>
             authtoken
         }
 })
+
+export const bookingStar=async(bookingId,star,authtoken)=>
+    await axios.put(`${process.env.REACT_APP_API}/booking/star/${bookingId}`,
+        {star},
+        {headers:{authtoken}}
+    )
