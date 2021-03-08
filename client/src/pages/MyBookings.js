@@ -10,7 +10,6 @@ const MyBookings=()=>{
 
     const[reservations,setReservations]=useState([]);
     const [star,setStar]=useState(0);
-    const [rating, setRatings]=useState();
 
     const {user}=useSelector((state)=>({...state}));
     const {res}=useSelector((state)=>({...state}))
